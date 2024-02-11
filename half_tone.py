@@ -23,7 +23,7 @@ def apply_halftone(image, strength=1.0, grid_size=4, scale=1.0, shift=0, bg_colo
             original_r, original_g, original_b, alpha = pixels[x, y]
             
             # 輝度を計算
-            luminance = (0.298912 * original_r + 0.586611 * original_g + 0.114478 * original_b) / 255
+            luminance = (original_r + original_g + original_b) / 3 / 255.0
             
             # 対応するグリッドの位置を計算
             grid_x = (x + shift) % grid_size
@@ -54,7 +54,7 @@ file_path = input('画像ファイルのパスを入力してください: ')
 input_image = Image.open(file_path)
 
 # エフェクトの適用
-output_image = apply_halftone(input_image, strength=1.0, grid_size=4, scale=100, shift=0, bg_color=(240,240,240), gamma=0.04)
+output_image = apply_halftone(input_image, strength=1.0, grid_size=4, scale=100, shift=0, bg_color=(235,235,235), gamma=0.05)
 
 # 画像を保存
 output_image.save(f'halftone_{file_path}')
