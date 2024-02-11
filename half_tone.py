@@ -11,7 +11,7 @@ import math
 # 背景色: 背景の色
 # ガンマ: ガンマ補正
 # 戻り値: 画像
-def apply_halftone(image, strength=1.0, grid_size=4, scale=1.0, shift=0, dot_color=(0, 0, 0), bg_color=(255, 255, 255), gamma=1.0):
+def apply_halftone(image, strength=1.0, grid_size=4, scale=1.0, shift=0, bg_color=(255, 255, 255), gamma=1.0):
     # 画像データをロード   
     pixels = image.load()
     width, height = image.size
@@ -39,9 +39,9 @@ def apply_halftone(image, strength=1.0, grid_size=4, scale=1.0, shift=0, dot_col
             ratio = min(1, max(0, strength * (1 - (dist - dot_size))))
             
             # 新しい色を計算
-            new_r = ratio * dot_color[0] + (1 - ratio) * bg_color[0]
-            new_g = ratio * dot_color[1] + (1 - ratio) * bg_color[1]
-            new_b = ratio * dot_color[2] + (1 - ratio) * bg_color[2]
+            new_r = ratio * original_r + (1 - ratio) * bg_color[0]
+            new_g = ratio * original_g + (1 - ratio) * bg_color[1]
+            new_b = ratio * original_b + (1 - ratio) * bg_color[2]
             
             # ピクセルの色を更新
             pixels[x, y] = (int(new_r), int(new_g), int(new_b), alpha)
@@ -54,7 +54,7 @@ file_path = input('画像ファイルのパスを入力してください: ')
 input_image = Image.open(file_path)
 
 # エフェクトの適用
-output_image = apply_halftone(input_image, strength=1.0, grid_size=4, scale=100, shift=0, dot_color=(0,0,0), bg_color=(255,255,255), gamma=0.04)
+output_image = apply_halftone(input_image, strength=1.0, grid_size=4, scale=100, shift=0, bg_color=(240,240,240), gamma=0.04)
 
 # 画像を保存
 output_image.save(f'halftone_{file_path}')
