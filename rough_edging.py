@@ -58,10 +58,8 @@ def composite_images(foreground_image, polygon_image):
     # 出力用の画像を作成
     output_image = np.zeros_like(foreground_image)
 
-    # まずポリゴン画像のデータをコピー
-    output_image[:, :, 0] = polygon_image
-    output_image[:, :, 1] = polygon_image
-    output_image[:, :, 2] = polygon_image
+    # ポリゴン画像をアルファチャンネルとして使う
+    output_image[:, :, 0:3] = np.repeat(polygon_image[:, :, np.newaxis], 3, axis=2)
     output_image[:, :, 3] = polygon_image
 
     # 元画像の透明度を使って合成
